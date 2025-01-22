@@ -1,0 +1,35 @@
+name: Test Jupyter Bot for 3 Minutes
+
+on:
+  workflow_dispatch:  # Allows you to manually trigger the workflow for testing
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'  # Adjust to your Python version
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install nbconvert
+
+      - name: Execute Jupyter Notebook
+        env:
+          TEST_COUNT: ${{ github.run_number }}  # Workflow run number (increments automatically)
+        run: |
+          echo "Starting notebook execution for test run $TEST_COUNT"
+          jupyter nbconvert --to notebook --execute bot_poster.ipynb --output executed_poster_$TEST_COUNT.ipynb
+          
+          # Stop after 3 runs
+          if [[ $TEST_COUNT -ge 3 ]]; then
+            echo "Test completed after 3 runs."
+            exit 0
+          fi
