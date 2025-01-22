@@ -1,9 +1,9 @@
 name: Test Jupyter Bot (Run Every Minute for 3 Minutes)
 
 on:
-  workflow_dispatch:  # Allows you to trigger the workflow manually for testing
+  workflow_dispatch:  
   schedule:
-    - cron: '* * * * *'  # Runs every minute
+    - cron: '0 */2 * * *'  # Runs every other hour
 
 jobs:
   run-bot:
@@ -25,7 +25,7 @@ jobs:
 
       - name: Run Jupyter Notebook for Testing
         env:
-          ITERATIONS: 3  # Limit the bot to run for 3 iterations
+          ITERATIONS: 1  # Limit the bot to run for 3 iterations
         run: |
           for i in $(seq 1 $ITERATIONS); do
             echo "Running iteration $i..."
