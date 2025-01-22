@@ -1,7 +1,9 @@
-name: Test Jupyter Bot for 3 Minutes
+name: Test Jupyter Bot (Run Every Minute for 3 Minutes)
 
 on:
-  workflow_dispatch:  # Allows you to manually trigger the workflow for testing
+  workflow_dispatch:  # Allows you to trigger the workflow manually for testing
+  schedule:
+    - cron: '* * * * *'  # Runs every minute
 
 jobs:
   run-bot:
@@ -21,15 +23,12 @@ jobs:
           pip install -r requirements.txt
           pip install nbconvert
 
-      - name: Execute Jupyter Notebook
+      - name: Run Jupyter Notebook for Testing
         env:
-          TEST_COUNT: ${{ github.run_number }} 
+          ITERATIONS: 3  # Limit the bot to run for 3 iterations
         run: |
-          echo "Starting notebook execution for test run $TEST_COUNT"
-          jupyter nbconvert --to notebook --execute bot_poster.ipynb --output executed_poster_$TEST_COUNT.ipynb
-          
-          # Stop after 3 runs
-          if [[ $TEST_COUNT -ge 3 ]]; then
-            echo "Test completed after 3 runs."
-            exit 0
-          fi
+          for i in $(seq 1 $ITERATIONS); do
+            echo "Running iteration $i..."
+            jupyter nbconvert --to notebook --execute your_notebook.ipynb --output executed_notebook_$i.ipynb
+            sleep 60  # Wait for 1 minute between runs
+          done
