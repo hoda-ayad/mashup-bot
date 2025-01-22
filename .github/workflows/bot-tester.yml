@@ -29,6 +29,6 @@ jobs:
         run: |
           for i in $(seq 1 $ITERATIONS); do
             echo "Running iteration $i..."
-            jupyter nbconvert --to notebook --execute your_notebook.ipynb --output executed_notebook_$i.ipynb
+            jupyter nbconvert --to notebook --execute bot_poster.ipynb --output bot_poster_$i.ipynb
             sleep 60  # Wait for 1 minute between runs
           done
