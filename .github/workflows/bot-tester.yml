@@ -1,4 +1,4 @@
-name: Test Jupyter Bot (Run Every Minute for 3 Minutes)
+name: 2-hour Bot Poster
 
 on:
   workflow_dispatch:  
@@ -23,9 +23,7 @@ jobs:
           pip install -r requirements.txt
           pip install nbconvert
 
-      - name: Run Jupyter Notebook for Testing
-        env:
-          ITERATIONS: 1  # Limit the bot to run for 3 iterations
+      - name: Run Jupyter Notebook
         run: |
           for i in $(seq 1 $ITERATIONS); do
             echo "Running iteration $i..."
