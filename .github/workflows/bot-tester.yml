@@ -2,8 +2,8 @@ name: 2-hour Bot Poster
 
 on:
   workflow_dispatch:  
-  schedule:
-    - cron: '0 */2 * * *'  # Runs every other hour
+  # schedule:
+    # - cron: '0 */2 * * *'  # Runs every other hour
 
 jobs:
   run-bot:
